@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/stock_item"
     android:layout_width="match_parent"
     android:layout_height="?android:attr/listPreferredItemHeight"
     android:gravity="center_vertical"
@@ -31,11 +32,21 @@
             tools:text="1000.00" />
 
         <TextView
-            android:id="@+id/change"
+            android:id="@+id/change_green"
             style="@style/PercentChangeTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/percent_change_pill_green"
+            android:paddingStart="3dp"
+            android:paddingEnd="3dp"
+            tools:text="100%" />
+
+        <TextView
+            android:id="@+id/change_red"
+            style="@style/PercentChangeTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/percent_change_pill_red"
             android:paddingStart="3dp"
             android:paddingEnd="3dp"
             tools:text="100%" />

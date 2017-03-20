@@ -14,6 +14,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.udacity.stockhawk.R;
 
@@ -47,15 +48,23 @@ public class AddStockDialog extends DialogFragment {
         builder.setView(custom);
 
         builder.setMessage(getString(R.string.dialog_title));
-        builder.setPositiveButton(getString(R.string.dialog_add),
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        addStock();
-                    }
-                });
+        builder.setPositiveButton(getString(R.string.dialog_add), null);
         builder.setNegativeButton(getString(R.string.dialog_cancel), null);
 
         Dialog dialog = builder.create();
+        // prevent dialog from dismiss if input is empty and "Add" button is clicked
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(final DialogInterface dialog) {
+                ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE)
+                        .setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(final View v) {
+                                addStock();
+                            }
+                        });
+            }
+        });
 
         Window window = dialog.getWindow();
         if (window != null) {
@@ -66,11 +75,16 @@ public class AddStockDialog extends DialogFragment {
     }
 
     private void addStock() {
-        Activity parent = getActivity();
-        if (parent instanceof MainActivity) {
-            ((MainActivity) parent).addStock(stock.getText().toString());
+        String symbol = stock.getText().toString();
+        if (symbol.trim().isEmpty()) {
+            Toast.makeText(getActivity(), R.string.toast_empty_symbol, Toast.LENGTH_SHORT).show();
+        } else {
+            Activity parent = getActivity();
+            if (parent instanceof MainActivity) {
+                ((MainActivity) parent).addStock(symbol);
+            }
+            dismissAllowingStateLoss();
         }
-        dismissAllowingStateLoss();
     }
 
 
